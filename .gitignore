@@ -1,0 +1,34 @@
+# ==========================================
+# 1. PYTHON RUNTIME COMPILATION FILES
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ==========================================
+# 2. LOCAL LOG ARCHIVES & PERFORMANCE spreadsheets
+# ==========================================
+*.log
+*.csv
+
+# ==========================================
+# 3. DOCKER STORAGE VOLUMES (PERSISTENT DATA CACHES)
+# ==========================================
+.docker/
+data/
+postgres_data/
+clickhouse_data/
+
+# ==========================================
+# 4. ENVIRONMENT ENCRYPTION KEYS (SECURITY)
+# ==========================================
+.env
+.env.local
+.env.*
