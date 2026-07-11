@@ -4,7 +4,6 @@ import httpx
 import uuid
 import clickhouse_connect
 from decimal import Decimal
-import psycopg2
 
 # ==========================================
 # AUTOMATED GATE TEST VERIFICATIONS
