@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import uuid  # ◄ ADD THIS IMPORT
+from dotenv import load_dotenv 
 from aiokafka import AIOKafkaProducer
 from sqlalchemy import select, update
 from sqlalchemy.dialects.postgresql import JSONB
@@ -13,12 +14,21 @@ from sqlalchemy.dialects.postgresql import JSONB
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("OutboxWorker")
 
+load_dotenv()
+
+
 # ==========================================
 # 1. DATABASE & KAFKA CONFIGURATION
 # ==========================================
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:password@localhost:5432/ledger")
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "ledger")
+
+DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_SERVERS", "localhost:9092")
-KAFKA_TOPIC = "financial-ledger-events"
+KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "financial-ledger-events")
 BATCH_SIZE = 100  # Number of events to process at once for high throughput
 
 engine = create_async_engine(DATABASE_URL, echo=False)

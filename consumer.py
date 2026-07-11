@@ -3,19 +3,22 @@ import json
 import logging
 import os
 from aiokafka import AIOKafkaConsumer
+from dotenv import load_dotenv
 import clickhouse_connect
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("BigDataConsumer")
-
+load_dotenv()
 # ==========================================
 # 1. CONFIGURATION SETUP
 # ==========================================
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_SERVERS", "localhost:9092")
-KAFKA_TOPIC = "financial-ledger-events"
+KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "financial-ledger-events")
 
 CLICKHOUSE_HOST = os.getenv("CLICKHOUSE_HOST", "localhost")
 CLICKHOUSE_PORT = int(os.getenv("CLICKHOUSE_PORT", 8123))
+CLICKHOUSE_USER = os.getenv("CLICKHOUSE_USER", "default")
+CLICKHOUSE_PASSWORD = os.getenv("CLICKHOUSE_PASSWORD", "")
 
 BATCH_SIZE = 1000       # Accumulate up to 1000 records before running an explicit database write
 BATCH_TIMEOUT = 2.0     # Force a flush every 2 seconds even if the 1000 record cap hasn't been met
@@ -25,11 +28,11 @@ BATCH_TIMEOUT = 2.0     # Force a flush every 2 seconds even if the 1000 record 
 # ==========================================
 async def run_consumer():
     # Initialize connection to the Columnar ClickHouse Client
-    ch_client = clickhouse_connect.get_client(
+ch_client = clickhouse_connect.get_client(
         host=CLICKHOUSE_HOST, 
         port=CLICKHOUSE_PORT,
-        username="default",    # ◄ Ensure this is explicitly lower-case 'default'
-        password="" 
+        username=CLICKHOUSE_USER,       # ◄ MAP TO ENV VARIABLE
+        password=CLICKHOUSE_PASSWORD     # ◄ MAP TO ENV VARIABLE
     )
     logger.info("Connected to ClickHouse analytical database.")
 

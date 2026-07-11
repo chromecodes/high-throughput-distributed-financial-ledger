@@ -5,3 +5,4 @@ asyncpg>=0.29.0
 aiokafka>=0.10.0
 clickhouse-connect>=0.7.0
 pydantic>=2.6.0
+python-dotenv>=1.0.1
