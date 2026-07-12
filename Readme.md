@@ -68,3 +68,15 @@ docker-compose exec clickhouse clickhouse-client --query "SELECT * FROM analytic
 
 ## 🚀 Continuous Integration (CI/CD)
 This repository includes a native **GitHub Actions Pipeline** (`.github/workflows/ci-pipeline.yml`). Every commit automatically triggers isolated service containers in GitHub's cloud, boots the engine layers, and verifies system integrity rules using an integrated **PyTest** regression suite.
+
+
+## 📊 Stress-Test & Performance Benchmarks
+
+The core API was subjected to an intense, multi-user saturation swarm utilizing **Locust** to evaluate resource contention safety boundaries:
+
+* **Sustained Throughput**: **152.8 Requests Per Second (RPS)**
+* **Volume Processed**: **160,996 Atomic Transactions**
+* **System Error Rate**: **0.00% Failures**
+
+### 📈 Real-Time Performance Saturation Chart
+![Locust Load Test Performance Benchmark](assets/locust_benchmark.png)
